@@ -1,0 +1,14 @@
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\bin\Debug\net8.0\ObjetosClase.exe
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\bin\Debug\net8.0\ObjetosClase.deps.json
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\bin\Debug\net8.0\ObjetosClase.runtimeconfig.json
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\bin\Debug\net8.0\ObjetosClase.dll
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\bin\Debug\net8.0\ObjetosClase.pdb
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.AssemblyInfoInputs.cache
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.AssemblyInfo.cs
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.csproj.CoreCompileInputs.cache
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.dll
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\refint\ObjetosClase.dll
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.pdb
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ObjetosClase.genruntimeconfig.cache
+C:\Users\Cachulo\source\repos\ObjetosClase\ObjetosClase\obj\Debug\net8.0\ref\ObjetosClase.dll
