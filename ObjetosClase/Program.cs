@@ -159,11 +159,81 @@ namespace ObjetosClase
         
         }
     }
+
+    class CuentaBancaria
+    {
+        private string numeroCuenta;
+        private double saldo;
+
+        public string NumeroCuenta
+        {
+            get 
+            {
+                return numeroCuenta;
+            }
+        }
+
+        public double Saldo
+        {
+            get
+            {
+                return saldo;
+            }
+            private set
+            {
+                if (value >= 0)
+                {
+                    saldo = value;
+                }
+                else
+                {
+                    Console.WriteLine("El saldo no puede ser negativo");
+                }
+            }
+        }
+
+        public CuentaBancaria(string numero,double saldo)
+        {
+            this.numeroCuenta = numero;
+            this.saldo = saldo;
+        }
+
+        public void Depositar(double monto) 
+        {
+            if (monto > 0)
+            {
+                this.saldo += monto;
+                Console.WriteLine($"Se ha depositado {monto:C} a la cuenta. El saldo actual es {Saldo:C}");
+            }
+            else 
+            {
+                Console.WriteLine("El monto a depositar debe ser mayor a 0");
+            }
+        }
+
+        public void Retirar(double monto)
+        {
+            if (monto > 0 && monto <= saldo)
+            {
+                this.saldo -= monto;
+                Console.WriteLine($"Se ha retirado {monto:C}. El nuevo saldo es {Saldo:C}");
+            }
+            else 
+            { 
+                Console.WriteLine("No se ha podido realizar el retiro del dinero, saldo insuficiente o monto inválido.");
+            
+            }
+        }
+
+
+    }
+
+
     internal class Program
     {
         static void Main(string[] args)
         {
-            Animal miAnimal = new Animal("Canela", 3);
+            /*Animal miAnimal = new Animal("Canela", 3);
             miAnimal.MostrarInformacion();
             miAnimal.PedirComida();
 
@@ -178,14 +248,63 @@ namespace ObjetosClase
 
             Reptil miReptil = new Reptil("Luna", 13, true);
 
-            //miPerro.PedirComida();
-            //miGato.PedirComida();
-
             Animal[] animales = { miPerro, miGato, miPajaro, miReptil };
             foreach (Animal animal in animales)
             {
                 animal.PedirComida();
+            }*/
+
+            CuentaBancaria cuenta = new CuentaBancaria("0001", 1000000);
+            Console.WriteLine($"numero de cuenta: {cuenta.NumeroCuenta}");
+            Console.WriteLine($"Saldo inicial: {cuenta.Saldo:C}");
+
+            //Console.WriteLine("Ingrese operación a realizar: 1-Depositar. 2-Retirar");
+            //string respuesta = Console.ReadLine();
+
+            bool continuar = true;
+            while (continuar) 
+            {
+
+                while (true)
+                {
+                    try
+                    {
+                        Console.WriteLine("Ingrese operación a realizar: 1-Depositar. 2-Retirar");
+                        int respuesta = Convert.ToInt32(Console.ReadLine());
+                        if (respuesta != 1 && respuesta !=2)
+                        {
+                            throw new Exception("Ingrese una opción válida");
+
+                        }
+                        switch (respuesta)
+                        {
+                            case 1:
+                                cuenta.Depositar(500000);
+                                break;
+                            case 2:
+                                cuenta.Retirar(9000000);
+                                break;
+                        }
+                        //break;
+
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
+                string respuesta2 = Console.ReadLine().ToLower();
+                continuar = respuesta2 == "s";
+
             }
+            
+           
+            
+            
+            
+            
+
 
         }
     }
