@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 
 namespace ObjetosClase
@@ -254,9 +255,22 @@ namespace ObjetosClase
                 animal.PedirComida();
             }*/
 
-            CuentaBancaria cuenta = new CuentaBancaria("0001", 1000000);
-            Console.WriteLine($"numero de cuenta: {cuenta.NumeroCuenta}");
-            Console.WriteLine($"Saldo inicial: {cuenta.Saldo:C}");
+            
+            //Console.WriteLine($"numero de cuenta: {cuenta.NumeroCuenta}");
+            //Console.WriteLine($"Saldo inicial: {cuenta.Saldo:C}");
+
+            //string[] cuentas_a_usar = new string [5];
+            //double[] saldos_iniciales = new double[5];
+
+            //cuentas_a_usar[0] = cta_a_usar;
+            //saldos_iniciales[0] = saldo_inicial;
+
+            CuentaBancaria[] cuentas_BCO = new CuentaBancaria[5];
+            //CuentaBancaria cuenta = new CuentaBancaria("cta_a_usar", 1);
+            //cuentas_BCO[0] = cuenta;
+            //Console.WriteLine(cuentas_BCO[0].);
+
+
 
             //Console.WriteLine("Ingrese operación a realizar: 1-Depositar. 2-Retirar");
             //string respuesta = Console.ReadLine();
@@ -269,32 +283,89 @@ namespace ObjetosClase
                 {
                     try
                     {
-                        Console.WriteLine("Ingrese operación a realizar: 1-Depositar. 2-Retirar");
+                        Console.WriteLine("Ingrese operación a realizar: 1-crear Cuenta. 2-Depositar 3- Crear cuenta y saldo");
                         int respuesta = Convert.ToInt32(Console.ReadLine());
-                        if (respuesta != 1 && respuesta !=2)
+                        if (respuesta != 1 && respuesta !=2 && respuesta !=3)
                         {
-                            throw new Exception("Ingrese una opción válida");
+                            throw new Exception("Ingrese una opción válida.");
 
                         }
                         switch (respuesta)
                         {
-                            case 1:
-                                cuenta.Depositar(500000);
+                            case 1: //Crear cuenta
+
+                                    try
+                                    {
+                                            int value;
+                                            char charResult;
+                                            Console.WriteLine("Ingrese número de cuenta");
+                                            string cta_a_usar = Console.ReadLine();
+                                            bool exito = int.TryParse(cta_a_usar, out value);
+                                            if (exito != true || string.IsNullOrEmpty(cta_a_usar))
+                                            {
+                                                throw new Exception("Ingrese número válido de cuenta. Tampoco puede ingresar nada.");
+                                            }
+                                            Console.WriteLine("Ingrese saldo");
+                                            double monto_inicial = Convert.ToDouble(Console.ReadLine());
+                                            if (monto_inicial < 0 || !char.TryParse("t", out charResult))
+                                            {
+                                                throw new Exception("Ingres número mayor a 0 y ningúna letra.");
+                                            }
+                                            double saldo_inicial = Convert.ToInt32(Console.ReadLine());
+                                            cuentas_BCO[0] = new CuentaBancaria(cta_a_usar, saldo_inicial);
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                        //Console.WriteLine("no se que estoy haciendo.");
+                                        //Console.WriteLine(ex.Message);
+                                        throw;
+                                    }
+                                    break;
+                                
+                            case 2: //Depositar
+                                Console.WriteLine("¿Cuánto dinero desea depositra?");
+                                int deposito = Convert.ToInt32(Console.ReadLine());
+                                cuentas_BCO[0].Depositar(deposito);
                                 break;
-                            case 2:
-                                cuenta.Retirar(9000000);
+                            case 3:
+                                try
+                                {
+                                    Console.WriteLine("¿Cuánto dinero desea retirar?");
+                                    int retiro = Convert.ToInt32(Console.ReadLine());
+                                    //cuenta.Retirar(retiro);
+
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }                          
                                 break;
                         }
-                        //break;
+                        break;
 
                     }
                     catch (Exception e)
+                        
                     {
                         Console.WriteLine(e.Message);
                     }
                 }
                 Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
                 string respuesta2 = Console.ReadLine().ToLower();
+                if (respuesta2 == "s") 
+                {
+                    Console.WriteLine("¿Desea cambiar de cuenta? (s/n)");
+                    try
+                    {
+
+
+                    }
+                    catch (Exception ef) 
+                    {
+                        Console.WriteLine(ef.Message);
+                    }
+                }
                 continuar = respuesta2 == "s";
 
             }
