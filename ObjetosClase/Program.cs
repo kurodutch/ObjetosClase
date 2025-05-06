@@ -234,149 +234,145 @@ namespace ObjetosClase
     {
         static void Main(string[] args)
         {
-            /*Animal miAnimal = new Animal("Canela", 3);
-            miAnimal.MostrarInformacion();
-            miAnimal.PedirComida();
-
-            Perro miPerro = new Perro("Ronaldo", 15, "cocker");
-            miPerro.MostrarInformacion();
-
-            Gato miGato = new Gato("Cucho", 1, true);
-            miGato.MostrarInformacion();
-
-            Pajaro miPajaro = new Pajaro("pepe", 4, true);
-            miPajaro.MostrarInformacion();
-
-            Reptil miReptil = new Reptil("Luna", 13, true);
-
-            Animal[] animales = { miPerro, miGato, miPajaro, miReptil };
-            foreach (Animal animal in animales)
-            {
-                animal.PedirComida();
-            }*/
-
-            
-            //Console.WriteLine($"numero de cuenta: {cuenta.NumeroCuenta}");
-            //Console.WriteLine($"Saldo inicial: {cuenta.Saldo:C}");
-
-            //string[] cuentas_a_usar = new string [5];
-            //double[] saldos_iniciales = new double[5];
-
-            //cuentas_a_usar[0] = cta_a_usar;
-            //saldos_iniciales[0] = saldo_inicial;
-
+          
             CuentaBancaria[] cuentas_BCO = new CuentaBancaria[5];
-            //CuentaBancaria cuenta = new CuentaBancaria("cta_a_usar", 1);
-            //cuentas_BCO[0] = cuenta;
-            //Console.WriteLine(cuentas_BCO[0].);
-
-
-
-            //Console.WriteLine("Ingrese operación a realizar: 1-Depositar. 2-Retirar");
-            //string respuesta = Console.ReadLine();
-
             bool continuar = true;
+            
             while (continuar) 
             {
-
                 while (true)
                 {
+                    Console.WriteLine("Ingrese operación a realizar: 1-crear Cuenta. 2-Depositar 3- Crear cuenta y saldo");
+                   
                     try
                     {
-                        Console.WriteLine("Ingrese operación a realizar: 1-crear Cuenta. 2-Depositar 3- Crear cuenta y saldo");
                         int respuesta = Convert.ToInt32(Console.ReadLine());
-                        if (respuesta != 1 && respuesta !=2 && respuesta !=3)
+                        ValidarInput(respuesta); //validar que el input del cliente sea una opción válida.
+                        bool seguir = true;
+                        while (seguir)
                         {
-                            throw new Exception("Ingrese una opción válida.");
-
-                        }
-                        switch (respuesta)
-                        {
-                            case 1: //Crear cuenta
-
+                            switch (respuesta)
+                            {
+                                case 1: //Crear cuenta
+                                    
                                     try
                                     {
-                                            int value;
-                                            char charResult;
-                                            Console.WriteLine("Ingrese número de cuenta");
-                                            string cta_a_usar = Console.ReadLine();
-                                            bool exito = int.TryParse(cta_a_usar, out value);
-                                            if (exito != true || string.IsNullOrEmpty(cta_a_usar))
-                                            {
-                                                throw new Exception("Ingrese número válido de cuenta. Tampoco puede ingresar nada.");
-                                            }
-                                            Console.WriteLine("Ingrese saldo");
-                                            double monto_inicial = Convert.ToDouble(Console.ReadLine());
-                                            if (monto_inicial < 0 || !char.TryParse("t", out charResult))
-                                            {
-                                                throw new Exception("Ingres número mayor a 0 y ningúna letra.");
-                                            }
-                                            double saldo_inicial = Convert.ToInt32(Console.ReadLine());
-                                            cuentas_BCO[0] = new CuentaBancaria(cta_a_usar, saldo_inicial);
+                                        Console.WriteLine("Ingrese número de cuenta");
+                                        int cta_a_usar = Convert.ToInt32(Console.ReadLine());
+                                        ValidarCuenta(cta_a_usar);
+                                        Console.WriteLine("Ingrese saldo");
+                                        double monto_inicial = Convert.ToDouble(Console.ReadLine());
+                                        ValidarSaldo(monto_inicial);
+                                        cuentas_BCO[0] = new CuentaBancaria(Convert.ToString(cta_a_usar), monto_inicial);
+                                        Console.WriteLine($"Se ha ingresado con éxito la siguiente cuenta : {cuentas_BCO[0].NumeroCuenta}" +
+                                        $"con el siguiente saldo incial {cuentas_BCO[0].Saldo:C}");
+                                        ContinuarOperaciones(continuar);
+                                        if (continuar == true)
+                                        {
+                                            seguir = false;
+                                        }
+                                        //Console.WriteLine(continuar);
+
                                     }
-                                    catch (Exception ex)
+                                    catch (Exception e)
                                     {
 
-                                        //Console.WriteLine("no se que estoy haciendo.");
-                                        //Console.WriteLine(ex.Message);
-                                        throw;
+                                        if (e is FormatException)
+                                            Console.WriteLine("¡Error!: Debe ingresar un NÚMERO");
+                                        else if (e is OverflowException)
+                                            Console.WriteLine("!Error!: El número ingresado es muy alto");
+                                        else
+                                            Console.WriteLine($"¡Error!: {e.Message} " );
+
                                     }
                                     break;
-                                
-                            case 2: //Depositar
-                                Console.WriteLine("¿Cuánto dinero desea depositra?");
-                                int deposito = Convert.ToInt32(Console.ReadLine());
-                                cuentas_BCO[0].Depositar(deposito);
-                                break;
-                            case 3:
-                                try
-                                {
-                                    Console.WriteLine("¿Cuánto dinero desea retirar?");
-                                    int retiro = Convert.ToInt32(Console.ReadLine());
-                                    //cuenta.Retirar(retiro);
 
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine(e.Message);
-                                }                          
-                                break;
+                                /*case 2: //Depositar
+                                    Console.WriteLine("¿Cuánto dinero desea depositra?");
+                                    int deposito = Convert.ToInt32(Console.ReadLine());
+                                    cuentas_BCO[0].Depositar(deposito);
+                                    break;
+
+                                case 3:
+                                    try
+                                    {
+                                        Console.WriteLine("¿Cuánto dinero desea retirar?");
+                                        int retiro = Convert.ToInt32(Console.ReadLine());
+                                        //cuenta.Retirar(retiro);
+
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                    break;*/
+                            }
+                            
                         }
-                        break;
-
                     }
                     catch (Exception e)
                         
                     {
-                        Console.WriteLine(e.Message);
+                        if (e is FormatException)
+                            Console.WriteLine("¡Error!: Debe ingresar un número");
+                        else if (e is OverflowException)
+                            Console.WriteLine("!Error!: El número ingresado es muy alto");
+                        else
+                            Console.WriteLine($"¡Error!: {e.Message}");
+                  
                     }
+
+
+
+                    
                 }
-                Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
-                string respuesta2 = Console.ReadLine().ToLower();
-                if (respuesta2 == "s") 
-                {
-                    Console.WriteLine("¿Desea cambiar de cuenta? (s/n)");
-                    try
-                    {
-
-
-                    }
-                    catch (Exception ef) 
-                    {
-                        Console.WriteLine(ef.Message);
-                    }
-                }
-                continuar = respuesta2 == "s";
-
+               
             }
             
-           
-            
-            
-            
-            
 
+        }
 
+        
+
+        static void ValidarSaldo(double monto_inicial)
+        {
+            if (monto_inicial < 0)
+            {
+                
+                throw new Exception($"El monto a ingresar no puede ser menor a {1:C}");
+            }
+        }
+
+         static void ValidarCuenta(int cta_a_usar)
+        {
+            
+           if (cta_a_usar < 0 || cta_a_usar > int.MaxValue)
+           {
+                
+                throw new Exception("El número no puede ser negativo ni mayor al permitido");
+                
+           }
+        }
+
+         static void ValidarInput(int respuesta) 
+        {
+            //asegurar que el usuario eliga una opción válida.
+            if (respuesta < 1 || respuesta > 3) 
+            {
+                //no en rango
+                throw new Exception("Debe elegir una opción válida.");
+            
+            }
+        }
+        static bool ContinuarOperaciones(bool continuar)
+        {
+            Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
+            string respuesta2 = Console.ReadLine().ToLower();
+            if (respuesta2 == "s")
+                continuar = true;
+            else
+                continuar = false;
+            return continuar;
         }
     }
 }
