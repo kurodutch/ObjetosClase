@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 namespace ObjetosClase
 {
@@ -235,12 +238,11 @@ namespace ObjetosClase
         static void Main(string[] args)
         {
           
-            CuentaBancaria[] cuentas_BCO = new CuentaBancaria[5];
+            CuentaBancaria[] cuentas_BCO = new CuentaBancaria[6];
             bool continuar = true;
             
-            while (continuar) 
-            {
-                while (true)
+            
+                while (continuar)
                 {
                     Console.WriteLine("Ingrese operación a realizar: 1-crear Cuenta. 2-Depositar 3- Crear cuenta y saldo");
                    
@@ -254,44 +256,87 @@ namespace ObjetosClase
                             switch (respuesta)
                             {
                                 case 1: //Crear cuenta
+
+                                try
+                                {   //ingresar y validar número de cuenta.
+                                    Console.WriteLine("Ingrese número de cuenta");
+                                    int cta_a_usar = Convert.ToInt32(Console.ReadLine());
+                                    ValidarCuenta(cta_a_usar);
+
+                                    //ingresar y validar el saldo incia
+                                    Console.WriteLine("Ingrese saldo");
+                                    double monto_inicial = Convert.ToDouble(Console.ReadLine());
+                                    ValidarSaldo(monto_inicial);
+
+                                    //ingresar los datos a la cuenta bancaria.
                                     
-                                    try
+                                    cuentas_BCO[0] = new CuentaBancaria(Convert.ToString(cta_a_usar), monto_inicial);
+                                    Console.WriteLine($"Se ha ingresado con éxito la siguiente cuenta : {cuentas_BCO[0].NumeroCuenta}" +
+                                    $"con el siguiente saldo incial {cuentas_BCO[0].Saldo:C}");
+                                    
+
+                                    //preguntar al usuario si desea continuar realizando operaciones.
+                                    bool repetir = true;
+                                    do
                                     {
-                                        Console.WriteLine("Ingrese número de cuenta");
-                                        int cta_a_usar = Convert.ToInt32(Console.ReadLine());
-                                        ValidarCuenta(cta_a_usar);
-                                        Console.WriteLine("Ingrese saldo");
-                                        double monto_inicial = Convert.ToDouble(Console.ReadLine());
-                                        ValidarSaldo(monto_inicial);
-                                        cuentas_BCO[0] = new CuentaBancaria(Convert.ToString(cta_a_usar), monto_inicial);
-                                        Console.WriteLine($"Se ha ingresado con éxito la siguiente cuenta : {cuentas_BCO[0].NumeroCuenta}" +
-                                        $"con el siguiente saldo incial {cuentas_BCO[0].Saldo:C}");
-                                        ContinuarOperaciones(continuar);
-                                        if (continuar == true)
+                                        Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
+                                        string respuesta2 = Console.ReadLine().ToLower();
+                                        //validar que el input del usuario sea un "s" o un "n".
+                                        if (respuesta2 != "s" && respuesta2 != "n" && (string.IsNullOrEmpty(respuesta2) == true))
                                         {
-                                            seguir = false;
+                                            Console.WriteLine("Ingrese una opción válida");
                                         }
-                                        //Console.WriteLine(continuar);
-
-                                    }
-                                    catch (Exception e)
-                                    {
-
-                                        if (e is FormatException)
-                                            Console.WriteLine("¡Error!: Debe ingresar un NÚMERO");
-                                        else if (e is OverflowException)
-                                            Console.WriteLine("!Error!: El número ingresado es muy alto");
+                                        else if (respuesta2 == "s")
+                                        {
+                                            repetir = false;
+                                            seguir = false;
+                                            
+                                        }
                                         else
-                                            Console.WriteLine($"¡Error!: {e.Message} " );
+                                        {
+                                            repetir = false;
+                                            seguir = false;
+                                            continuar = false;
+                                        }
+                                            
+                                    } while (repetir == true);
+                                }
+                                catch (Exception e)
+                                {
 
-                                    }
-                                    break;
+                                    if (e is FormatException)
+                                        Console.WriteLine("¡Error!: Debe ingresar un NÚMERO");
+                                    else if (e is OverflowException)
+                                        Console.WriteLine("!Error!: El número ingresado es muy alto");
+                                    else
+                                        Console.WriteLine($"¡Error!: {e.Message} ");
 
-                                /*case 2: //Depositar
-                                    Console.WriteLine("¿Cuánto dinero desea depositra?");
+                                }
+                                break;
+                                    
+
+                                case 2: //Depositar
+                                try 
+                                {
+                                    Console.WriteLine("¿Cuánto dinero desea depositar?");
                                     int deposito = Convert.ToInt32(Console.ReadLine());
+                                    ValidarSaldo(deposito);
                                     cuentas_BCO[0].Depositar(deposito);
-                                    break;
+                                    seguir = false;
+                                    //if (!ContinuarOperaciones())
+                                        continuar = false;
+
+
+                                }
+                                catch (Exception e)
+                                {
+                                    if (e is FormatException)
+                                        Console.WriteLine("¡Error!: Debe ingresar un NÚMERO");
+                                    else if (e is OverflowException)
+                                        Console.WriteLine("!Error!: El número ingresado es muy alto");
+                                    else
+                                        Console.WriteLine($"¡Error!: {e.Message} "); ;
+                                } break;
 
                                 case 3:
                                     try
@@ -305,9 +350,37 @@ namespace ObjetosClase
                                     {
                                         Console.WriteLine(e.Message);
                                     }
-                                    break;*/
+                                    break;
+
+                                bool cont_operaciones = true;
+                                while (cont_operaciones)
+                                {
+                                    Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
+                                    string respuesta2 = Console.ReadLine().ToLower();
+                                    switch (respuesta2)
+                                    {
+                                        case "s":
+                                            cont_operaciones = false;
+                                            seguir = false;
+                                            break;
+                                        case "n":
+                                            seguir = false;
+                                            continuar = false;
+                                            cont_operaciones = false;
+                                            break;
+                                        default:
+                                            Console.WriteLine("Ingrese una opción válida (s/n)");
+                                            break;
+                                    }
+
+                                }
                             }
-                            
+
+
+
+
+
+
                         }
                     }
                     catch (Exception e)
@@ -327,7 +400,7 @@ namespace ObjetosClase
                     
                 }
                
-            }
+            
             
 
         }
@@ -364,15 +437,25 @@ namespace ObjetosClase
             
             }
         }
-        static bool ContinuarOperaciones(bool continuar)
+        static void ContinuarOperaciones(string respuesta2)
         {
-            Console.WriteLine("¿Desea seguir haciendo operaciones(s/n)");
-            string respuesta2 = Console.ReadLine().ToLower();
-            if (respuesta2 == "s")
-                continuar = true;
+            
+            if (respuesta2 != "s" || respuesta2 != "y")
+            {
+                //throw new Exception("Ingrese una opcíon válida (s/n)");
+                Console.WriteLine("Ingrese una opcíon válida (s/n)");
+            }
+                
+            /*if (respuesta2 == "s")
+            {
+                //error = false;
+                
+            } 
             else
-                continuar = false;
-            return continuar;
+            {
+                //error = false;
+                
+            }   */    
         }
     }
 }
