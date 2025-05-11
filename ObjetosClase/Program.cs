@@ -237,8 +237,11 @@ namespace ObjetosClase
     {
         static void Main(string[] args)
         {
-          
-            CuentaBancaria[] cuentas_BCO = new CuentaBancaria[6];
+
+            CuentaBancaria[] cuentas_BCO = new CuentaBancaria[5];
+            //CuentaBancaria[] cuentas_BCO = Array.Empty<CuentaBancaria>();
+            
+            
             bool continuar = true;
             
             
@@ -258,7 +261,11 @@ namespace ObjetosClase
                                 case 1: //Crear cuenta
 
                                 try
-                                {   //ingresar y validar número de cuenta.
+                                {
+                                    int i = 0;
+                                    int j = cuentas_BCO.Length;
+                                    Console.WriteLine("el largo de cuenta bco es " + j);
+                                    //ingresar y validar número de cuenta.
                                     Console.WriteLine("Ingrese número de cuenta");
                                     int cta_a_usar = Convert.ToInt32(Console.ReadLine());
                                     ValidarCuenta(cta_a_usar);
@@ -270,9 +277,18 @@ namespace ObjetosClase
 
                                     //ingresar los datos a la cuenta bancaria.
                                     
-                                    cuentas_BCO[0] = new CuentaBancaria(Convert.ToString(cta_a_usar), monto_inicial);
-                                    Console.WriteLine($"Se ha ingresado con éxito la siguiente cuenta : {cuentas_BCO[0].NumeroCuenta}" +
-                                    $"con el siguiente saldo incial {cuentas_BCO[0].Saldo:C}");
+                                    cuentas_BCO[i] =  new CuentaBancaria(Convert.ToString(cta_a_usar), monto_inicial);
+                                    
+                                    Console.WriteLine($"Se ha ingresado con éxito la siguiente cuenta : {cuentas_BCO[i].NumeroCuenta}" +
+                                    $"con el siguiente saldo incial {cuentas_BCO[i].Saldo:C}");
+                                    i++;
+                                    for (int k=0; k < j; k++)
+                                    {
+                                        if (cuentas_BCO[k] == null)
+                                            break;
+                                        Console.WriteLine($"Cuentas bancarias creadas: Cuenta: {cuentas_BCO[k].NumeroCuenta}. Saldo: {cuentas_BCO[k].Saldo:C}");
+                                    }
+                                    
                                     
 
                                     //preguntar al usuario si desea continuar realizando operaciones.
