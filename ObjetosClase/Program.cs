@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -164,7 +165,7 @@ namespace ObjetosClase
         }
     }
 
-    class CuentaBancaria
+    public class CuentaBancaria
     {
         private string numeroCuenta;
         private double saldo;
@@ -243,9 +244,10 @@ namespace ObjetosClase
             
             
             bool continuar = true;
-            
-            
-                while (continuar)
+            int i = 0;
+
+
+            while (continuar)
                 {
                     Console.WriteLine("Ingrese operación a realizar: 1-crear Cuenta. 2-Depositar 3- Crear cuenta y saldo");
                    
@@ -262,13 +264,14 @@ namespace ObjetosClase
 
                                 try
                                 {
-                                    int i = 0;
+
                                     int j = cuentas_BCO.Length;
                                     Console.WriteLine("el largo de cuenta bco es " + j);
                                     //ingresar y validar número de cuenta.
-                                    Console.WriteLine("Ingrese número de cuenta");
+                                    Console.WriteLine("Ingrese número de cuenta"); //se están usando ruts para el ejemplo.
                                     int cta_a_usar = Convert.ToInt32(Console.ReadLine());
                                     ValidarCuenta(cta_a_usar);
+                                    
 
                                     //ingresar y validar el saldo incia
                                     Console.WriteLine("Ingrese saldo");
@@ -316,6 +319,7 @@ namespace ObjetosClase
                                         }
                                             
                                     } while (repetir == true);
+
                                 }
                                 catch (Exception e)
                                 {
@@ -334,6 +338,12 @@ namespace ObjetosClase
                                 case 2: //Depositar
                                 try 
                                 {
+                                    //pedir al usuario el numero de cuenta y validar que exista en el sistema.
+                                    Console.WriteLine("¿A qué cuenta desea depositar?");
+                                    int cta_a_usar = Convert.ToInt32(Console.ReadLine());
+                                    ValidarCuenta2(cta_a_usar, cuentas_BCO);
+
+                                    //pedir la cantidad de dinero a depositar y validar que sea un monto válido.
                                     Console.WriteLine("¿Cuánto dinero desea depositar?");
                                     int deposito = Convert.ToInt32(Console.ReadLine());
                                     ValidarSaldo(deposito);
@@ -443,7 +453,35 @@ namespace ObjetosClase
            }
         }
 
-         static void ValidarInput(int respuesta) 
+        static void ValidarCuenta2(int cta_a_usar, CuentaBancaria[] cuentas)
+        {
+
+            if (cta_a_usar < 0 || cta_a_usar > int.MaxValue)
+            {
+
+                throw new Exception("El número no puede ser negativo ni mayor al permitido");
+
+            }
+
+            foreach (CuentaBancaria cuenta in cuentas)
+            {
+                if (cta_a_usar == Convert.ToInt32(cuenta.NumeroCuenta))
+                {
+                    Console.WriteLine(cuenta.);
+                    var index = Array.FindIndex(cuentas, i == cuenta.NumeroCuenta);
+                    break;
+                }
+                else
+                {
+                    throw new Exception("El número de cuenta no está ingresado en el sistema");
+                }
+            }
+
+
+        }
+
+
+        static void ValidarInput(int respuesta) 
         {
             //asegurar que el usuario eliga una opción válida.
             if (respuesta < 1 || respuesta > 3) 
